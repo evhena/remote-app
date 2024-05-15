@@ -10,8 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@module-federation/vite": "^0.2.8",
+    "@softarc/native-federation": "^2.0.9",
+    "@softarc/native-federation-esbuild": "^2.0.9",
+    "buffer": "^6.0.3",
+    "events": "^3.3.0",
+    "process": "^0.11.10",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@originjs/vite-plugin-federation": "^1.3.5",
@@ -23,5 +30,12 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "vite": "^5.2.0"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false,
+    "crypto": false,
+    "assert": false
   }
 }

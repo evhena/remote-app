@@ -1,18 +1,95 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import federation from '@originjs/vite-plugin-federation';
+// import { defineConfig } from 'vite';
+// import react from '@vitejs/plugin-react';
+// import federation from '@originjs/vite-plugin-federation';
 
-export default defineConfig({
+// export default defineConfig({
+//   plugins: [
+//     react(),
+//     federation({
+//       name: 'remote-app',
+//       filename: 'remoteEntry.js',
+//       exposes: {
+//         './List': './src/components/List.jsx',
+//         './Input': './src/components/Input.jsx',
+//       },
+//       shared: ['react'],
+//     }),
+//   ],
+//   build: {
+//     modulePreload: false,
+//     target: 'esnext',
+//     minify: false,
+//     cssCodeSplit: false,
+//   },
+// });
+
+// import { federation } from '@module-federation/vite';
+// import { createEsBuildAdapter } from '@softarc/native-federation-esbuild';
+// import { reactReplacements } from '@softarc/native-federation-esbuild/src/lib/react-replacements';
+// import react from '@vitejs/plugin-react';
+// import { writeFileSync } from 'fs';
+// import { defineConfig, loadEnv } from 'vite';
+
+// export default defineConfig(async ({ command, mode }) => {
+//   const selfEnv = loadEnv(mode, process.cwd());
+//   return {
+//     server: {
+//       fs: {
+//         allow: ['.', '../shared'],
+//       },
+//     },
+//     plugins: [
+//       {
+//         name: 'generate-enviroment',
+//         options: function () {
+//           console.info('selfEnv', selfEnv);
+//           writeFileSync(
+//             './src/enviroment.ts',
+//             `export default ${JSON.stringify(selfEnv, null, 2)};`
+//           );
+//         },
+//       },
+//       await federation({
+//         options: {
+//           workspaceRoot: __dirname,
+//           outputPath: 'dist',
+//           tsConfig: 'tsconfig.json',
+//           federationConfig: `module-federation/federation.config.cjs`,
+//           verbose: false,
+//           dev: command === 'serve',
+//         },
+//         adapter: createEsBuildAdapter({
+//           plugins: [],
+//           fileReplacements: reactReplacements.dev,
+//         }),
+//       }),
+//       react(),
+//     ],
+//   };
+// });
+
+import { defineConfig } from 'vite';
+import { federation } from '@module-federation/vite';
+import { createEsBuildAdapter } from '@softarc/native-federation-esbuild';
+
+// https://vitejs.dev/config/
+export default defineConfig(async ({ command }) => ({
+  server: {
+    fs: {
+      allow: ['.', '../shared'],
+    },
+  },
   plugins: [
-    react(),
-    federation({
-      name: 'remote-app',
-      filename: 'remoteEntry.js',
-      exposes: {
-        './List': './src/components/List.jsx',
-        './Input': './src/components/Input.jsx',
+    await federation({
+      options: {
+        workspaceRoot: __dirname,
+        outputPath: 'dist',
+        tsConfig: 'tsconfig.json',
+        federationConfig: 'module-federation/federation.config.cjs',
+        verbose: false,
+        dev: command === 'serve',
       },
-      shared: ['react'],
+      adapter: createEsBuildAdapter({ plugins: [] }),
     }),
   ],
   build: {
@@ -21,4 +98,4 @@ export default defineConfig({
     minify: false,
     cssCodeSplit: false,
   },
-});
+}));
