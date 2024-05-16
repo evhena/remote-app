@@ -1,24 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import federation from '@originjs/vite-plugin-federation';
+import { createWebpackDevMiddleware } from '@module-federation/webpack-5-vite';
 
 export default defineConfig({
   plugins: [
     react(),
-    federation({
-      name: 'remote-app',
-      filename: 'remoteEntry.js',
-      exposes: {
-        './List': './src/components/List.jsx',
-        './Input': './src/components/Input.jsx',
-      },
-      shared: ['react'],
+    createWebpackDevMiddleware({
+      webpackConfigPath: './webpack.config.js',
     }),
   ],
-  build: {
-    modulePreload: false,
-    target: 'esnext',
-    minify: false,
-    cssCodeSplit: false,
-  },
 });

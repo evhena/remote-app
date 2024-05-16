@@ -5,7 +5,7 @@ import './App.css';
 import Input from './components/Input';
 import List from './components/List';
 
-function App() {
+function RemoteApp() {
   const [count, setCount] = useState(0);
 
   return (
@@ -28,4 +28,4 @@ function App() {
   );
 }
 
-export default App;
+export default RemoteApp;
