@@ -39,6 +39,7 @@ export default defineConfig({
     //   fileName: 'svelte-micro-frontend',
     // },
     outDir: './build',
+    input: 'src/main.jsx', // Entry point of the app
     rollupOptions: {},
   },
 });
